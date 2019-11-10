@@ -107,7 +107,7 @@ formula_deduction(HeavyAtomMolWt,HeavyAtomCount,NO_count,HeteroatomCount)
 
 # example from compound set 1, id=1
 HeavyAtomCount <- 30
-HeavyAtomMolWt <-423.772
+HeavyAtomMolWt <- 423.772
 NO_count <- 6
 HeteroatomCount <- 8
 formula_deduction(HeavyAtomMolWt,HeavyAtomCount,NO_count,HeteroatomCount)
@@ -196,7 +196,8 @@ fails
 
 ##### Part A) Summary #####
 
-## we can successfull
+## we can successfully reverse engineer the formula of organic compounds up to roughly 40 atoms (on a laptop CPU).
+## The approach can be easily modified to include additional elements (at cost of lower speed and more memory use)
 
 ##### Part B) Constructing adjacency matrices #####
 
@@ -204,19 +205,19 @@ fails
 
 
 
-# just toy example with carboxylic benzoic acid
+## just toy example with carboxylic benzoic acid
 correct_composition <- c(7,0,2,0,0,0,0)
 H_available <- 6
 
-# another toy example with toluene
+## another toy example with toluene
 #correct_composition <- c(7,0,0,0,0,0,0)
 #H_available <- 8
 
-# another toy example with di-carboxylic benzoic acid
+## another toy example with di-carboxylic benzoic acid
 #correct_composition <- c(8,0,4,0,0,0,0)
 #H_available <- 6
 
-# another toy example with phenol
+## another toy example with phenol
 #correct_composition <- c(6,0,1,0,0,0,0)
 #H_available <- 6
 
@@ -244,7 +245,7 @@ COOH$twoD <- c("C","O","O")
 phenol <- c()
 phenol$mat <- read_excel("~/Downloads/phenol_mat.xlsx", na = "NA")
 phenol$nAtoms <- 7
-phenol$count <- 1
+phenol$count <- 0
 phenol$twoD <- c("C","C","C","C","C","C","O")
 
 
@@ -356,8 +357,24 @@ as.matrix(possible_matrices[[1]])
 write.table(as.matrix(possible_matrices[[1]]),"~/Downloads/possible_matrix1.csv",sep=",",row.names = F, col.names=F)
 write.table(atomic_number_list,"~/Downloads/possible_matrix1_headers.csv",sep=",",row.names = F, col.names=F)
 
+##### Part B) Summary #####
 
+## We can use the counts for the moieties to (re-)construct the adjacency graphs.
+## Limit is that molecules with many rings or chiral centers have exponentially more ways to be bonded
 
+##### Part C) turning adjacency matrix into SMILES and 2-D pictures #####
+
+## See the python notebook (only tested with Google Colab!)
+## Just upload the two outputs from end of Part B) and run.
+
+##### Part C) Summary #####
+
+## It's not pretty, but it's honest work.
+
+##### The Graveyard #####
+
+## Code that didn't make it into the program, but may be revived another day for another purpose.
+## Technically, it's undead, or pre-zombie.
 
 
 # function for molecular feature contrstruction into adjacency matrix
@@ -369,7 +386,6 @@ benzene$nAtoms <- 6
 # function to use
 
 
-#####
 
 
 
