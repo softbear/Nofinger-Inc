@@ -83,6 +83,7 @@ formula_deduction <- function(HeavyAtomMolWt,HeavyAtomCount,NO_count,HeteroatomC
     print("Congrats! There is only one plausible candidate composition:")
     correct_composition <- candidates[top_candidate,]
     names(correct_composition) <- c(Mol_name)
+    print(correct_composition)
     return(correct_composition)
 
   } else if(length(top_candidate)>=1){
@@ -164,7 +165,7 @@ compound_deducer <- function(id){
   }
 
   res <- formula_deduction(HeavyAtomMolWt,HeavyAtomCount,NO_count,HeteroatomCount)
-  print(length(res))
+  #print(length(res))
   if(length(res)==Mol_nElements){
     return(1)
   } else if(length(res)>Mol_nElements){
@@ -178,14 +179,23 @@ compound_deducer <- function(id){
 successes <- 0
 almosts <- 0
 fails <- 0
+
+successes_id <- c()
+almosts_id <- c()
+fails_id <- c()
+
 for(id in 1:nrow(compound_set_1)){
+  print(paste("Working on compound id: ",id,sep = ""))
   outcome <- compound_deducer(id)
   if(outcome==1){
     successes <- successes+1
+    successes_id <- c(successes_id,id)
   } else if(outcome==0){
     almosts <- almosts+1
+    almosts_id <- c(almosts_id,id)
   } else {
     fails <- fails+1
+    fails_id <- c(fails_id,id)
   }
 }
 
